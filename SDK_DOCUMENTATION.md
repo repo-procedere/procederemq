@@ -14,7 +14,40 @@ O ProcedereMQ é um sistema de mensageria focado em simplicidade e performance.
 
 ---
 
-## 🔑 2. Autenticação
+## 🐳 3. Docker Quick Start
+
+A maneira mais rápida de rodar o ProcedereMQ é usando Docker Compose. Salve o conteúdo abaixo como `docker-compose.yml`:
+
+```yaml
+services:
+  procederemq:
+    image: jebob28/procederemq:latest
+    container_name: procederemq
+    restart: unless-stopped
+    ports:
+      - "65090:65090" # HTTP (Dashboard + API)
+      - "65091:65091" # TCP
+    environment:
+      PORT: "65090"
+      TCP_PORT: "65091"
+      API_USERNAME: "admin"
+      API_PASSWORD: "password"
+      UI_USERNAME: "admin"
+      UI_PASSWORD: "password"
+      HTTP_RATE_LIMIT_PER_MIN: "2000"
+    tmpfs:
+      - /tmp
+```
+
+Execute para subir o servidor:
+```bash
+docker compose up -d
+```
+O dashboard estará disponível em `http://localhost:65090/ui`.
+
+---
+
+## 🔑 4. Autenticação
 
 Todos os SDKs suportam as seguintes formas de autenticação:
 1. **Basic Auth:** Usuário e Senha (recomendado para uso interno/servidores).
